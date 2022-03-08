@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" version="1.1" creator="https://gpx.studio">
+<metadata>
+    <name>new</name>
+    <author>
+        <name>gpx.studio</name>
+        <link href="https://gpx.studio"></link>
+    </author>
+</metadata>
+<trk>
+    <name>House Yellow</name>
+   <desc>
+	<![CDATA[
+	<strong>House Trail</strong><br/>
+	<strong>Dist:</strong>&nbsp; &nbsp;2.5 m / 100 f<br /><strong>Desc:</strong>&nbsp;Trail near my house.
+      ]]>
+	 </desc>
+    <trkseg>
+    <trkpt lat="42.810211276084644" lon="-73.86728525161745">
+        <ele>99.8</ele>
+    </trkpt>
+    <trkpt lat="42.810211276084644" lon="-73.86728525161745">
+        <ele>99.8</ele>
+    </trkpt>
+    <trkpt lat="42.81023980761259" lon="-73.8672758638859">
+        <ele>99.7</ele>
+    </trkpt>
+    <trkpt lat="42.81026833912738" lon="-73.86726647615434">
+        <ele>99.6</ele>
+    </trkpt>
+    <trkpt lat="42.81026833912738" lon="-73.86726647615434">
+        <ele>99.6</ele>
+    </trkpt>
+    <trkpt lat="42.81029687062899" lon="-73.8672597706318">
+        <ele>99.5</ele>
+    </trkpt>
+    <trkpt lat="42.81032540211745" lon="-73.86725306510927">
+        <ele>99.4</ele>
+    </trkpt>
+    <trkpt lat="42.81036475587304" lon="-73.86725038290027">
+        <ele>99.3</ele>
+    </trkpt>
+    <trkpt lat="42.810404109603596" lon="-73.86724770069124">
+        <ele>99.1</ele>
+    </trkpt>
+    <trkpt lat="42.810450350205" lon="-73.8672570884228">
+        <ele>99.0</ele>
+    </trkpt>
+    <trkpt lat="42.810496590771834" lon="-73.86726647615434">
+        <ele>98.9</ele>
+    </trkpt>
+    </trkseg>
+</trk>
+</gpx>

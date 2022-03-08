@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.topografix.com/GPX/gpx_style/0/2 http://www.topografix.com/GPX/gpx_style/0/2/gpx_style.xsd" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpx_style="http://www.topografix.com/GPX/gpx_style/0/2" version="1.1" creator="https://gpx.studio">
+<metadata>
+    <name>new</name>
+    <author>
+        <name>gpx.studio</name>
+        <link href="https://gpx.studio"></link>
+    </author>
+</metadata>
+<trk>
+    <name>PinkTrail</name>
+	<desc>
+	<![CDATA[
+	<strong>Pink Trail (aka upper glades)</strong><br/>
+	<strong>Dist:</strong>&nbsp; &nbsp;3.5 km/1.7 m<br /><strong>Desc:</strong>&nbsp;Our oldest trails are best negotiated by stronger, intermediate skiers.  Much of this area is bisected by 250 year old stone walls. Very quiet.
+     ]]>
+	 </desc>
+     <trkseg>
+    <trkpt lat="43.17954617495885" lon="-73.89473766088487">
+        <ele>268.0</ele>
+    </trkpt>
+    <trkpt lat="43.17954617495885" lon="-73.89473766088487">
+        <ele>268.0</ele>
+    </trkpt>
+    <trkpt lat="43.17954470803266" lon="-73.89476984739306">
+        <ele>268.1</ele>
+    </trkpt>
+    <trkpt lat="43.17954324110644" lon="-73.89480203390123">
+        <ele>268.2</ele>
+    </trkpt>
+    <trkpt lat="43.17954275213101" lon="-73.894851654768">
+        <ele>268.3</ele>
+    </trkpt>
+    <trkpt lat="43.17954226315559" lon="-73.89490127563478">
+        <ele>268.5</ele>
+    </trkpt>
+    <trkpt lat="43.17954617495885" lon="-73.89497436583045">
+        <ele>268.7</ele>
+    </trkpt>
+    <trkpt lat="43.17955008676186" lon="-73.89504745602609">
+        <ele>268.8</ele>
+    </trkpt>
+    <trkpt lat="43.17955448753993" lon="-73.89510177075864">
+        <ele>269.0</ele>
+    </trkpt>
+    <trkpt lat="43.17955888831767" lon="-73.8951560854912">
+        <ele>269.1</ele>
+    </trkpt>
+    <trkpt lat="43.17956524499611" lon="-73.89522649347784">
+        <ele>269.3</ele>
+    </trkpt>
+    <trkpt lat="43.17957160167387" lon="-73.89529690146448">
+        <ele>269.5</ele>
+    </trkpt>
+    <trkpt lat="43.179572579624235" lon="-73.89531433582307">
+        <ele>269.6</ele>
+    </trkpt>
+    <trkpt lat="43.17957355757457" lon="-73.89533177018166">
+        <ele>269.7</ele>
+    </trkpt>
+    <trkpt lat="43.17957355757457" lon="-73.89535926282407">
+        <ele>269.8</ele>
+    </trkpt>
+    <trkpt lat="43.17957355757457" lon="-73.89538675546648">
+        <ele>269.9</ele>
+    </trkpt>
+    <trkpt lat="43.17957844732608" lon="-73.89542832970622">
+        <ele>270.0</ele>
+    </trkpt>
+    <trkpt lat="43.17958333707721" lon="-73.89546990394594">
+        <ele>270.1</ele>
+    </trkpt>
+    <trkpt lat="43.17958724887782" lon="-73.89548197388652">
+        <ele>270.1</ele>
+    </trkpt>
+    <trkpt lat="43.17959116067821" lon="-73.89549404382707">
+        <ele>270.1</ele>
+    </trkpt>
+    <trkpt lat="43.179599473253155" lon="-73.89552086591722">
+        <ele>270.2</ele>
+    </trkpt>
+    <trkpt lat="43.17960778582698" lon="-73.89554768800737">
+        <ele>270.3</ele>
+    </trkpt>
+    <trkpt lat="43.17961071967629" lon="-73.895567804575">
+        <ele>270.4</ele>
+    </trkpt>
+    <trkpt lat="43.17961365352545" lon="-73.89558792114259">
+        <ele>270.4</ele>
+    </trkpt>
+    <trkpt lat="43.179618543273754" lon="-73.89562144875528">
+        <ele>270.5</ele>
+    </trkpt>
+    <trkpt lat="43.179623433021675" lon="-73.89565497636796">
+        <ele>270.7</ele>
+    </trkpt>
+    <trkpt lat="43.179627833794456" lon="-73.89567375183107">
+        <ele>270.8</ele>
+    </trkpt>
+    <trkpt lat="43.17963223456693" lon="-73.89569252729417">
+        <ele>270.8</ele>
+    </trkpt>
+    <trkpt lat="43.17963663533908" lon="-73.89571063220502">
+        <ele>270.8</ele>
+    </trkpt>
+    <trkpt lat="43.179641036110915" lon="-73.89572873711587">
+        <ele>270.9</ele>
+    </trkpt>
+    <trkpt lat="43.179647881755365" lon="-73.89574483036996">
+        <ele>270.9</ele>
+    </trkpt>
+    <trkpt lat="43.17965472739903" lon="-73.89576092362405">
+        <ele>270.9</ele>
+    </trkpt>
+    <trkpt lat="43.17966303996533" lon="-73.89577500522138">
+        <ele>271.0</ele>
+    </trkpt>
+    <trkpt lat="43.1796713525305" lon="-73.89578908681871">
+        <ele>271.0</ele>
+    </trkpt>
+    <trkpt lat="43.179677709197215" lon="-73.89580249786378">
+        <ele>271.0</ele>
+    </trkpt>
+    <trkpt lat="43.17968406586326" lon="-73.89581590890886">
+        <ele>271.0</ele>
+    </trkpt>
+    <trkpt lat="43.17968846663167" lon="-73.89582797884944">
+        <ele>271.1</ele>
+    </trkpt>
+    <trkpt lat="43.179692867399766" lon="-73.89584004878999">
+        <ele>271.1</ele>
+    </trkpt>
+    <trkpt lat="43.17970117996087" lon="-73.89587357640268">
+        <ele>271.2</ele>
+    </trkpt>
+    <trkpt lat="43.17970949252086" lon="-73.89590710401536">
+        <ele>271.2</ele>
+    </trkpt>
+    </trkseg>
+</trk>
+</gpx>
