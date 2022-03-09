@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:developer' as developer;
-import 'package:xml/xml.dart';
+import 'package:xml2json/xml2json.dart';
 
 late Location location;
 late LocationData currentLocation;
 
-const double CAMERA_ZOOM = 16;
+const double CAMERA_ZOOM = 14;
 const LatLng SOURCE_LOCATION = LatLng(43.18530761638575, -73.88805916911608);
 
 locationInit() async {
@@ -79,8 +78,7 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller = Completer();
 
   // for my drawn routes on the map
-  final Set<Polyline> _polylines = Set<Polyline>();
-  List<LatLng> polylineCoordinates = [];
+  final Set<Polyline> _polylines = <Polyline>{};
   //PolylinePoints polylinePoints;
 
   Icon fab = const Icon(
@@ -117,6 +115,12 @@ class MapSampleState extends State<MapSample> {
             _controller.complete(controller);
             _listTrails();
           },
+          onTap: (latlng) {
+            debugMsg("Taped: $latlng");
+            var plyId = findNearest(latlng);
+            debugMsg(plyId.value == "" ? "Nothing near" : "Found poly: $plyId");
+          },
+          polylines: _polylines,
           myLocationEnabled: true,
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -137,11 +141,11 @@ class MapSampleState extends State<MapSample> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  // List<String> allTrails = <String>{} as List<String>;
-  // void loadTrails() async {
-  //   await _listTrails();
-  //   allTrails.forEach((element) => debugMsg(element));
-  // }
+  PolylineId findNearest(LatLng ll) {
+    PolylineId ret = const PolylineId("");
+    for (var ply in _polylines) {}
+    return ret;
+  }
 
   Future _listTrails() async {
     // >> To get paths you need these 2 lines
@@ -155,18 +159,70 @@ class MapSampleState extends State<MapSample> {
         .where((String key) => key.contains('.gpx'))
         .toList();
 
+    final Xml2Json xml2Json = Xml2Json();
     for (var element in imagePaths) {
-      debugMsg(element);
+      //debugMsg(element);
       final xmlstr = await rootBundle.loadString(element);
-      final document = XmlDocument.parse(xmlstr);
-      readGPX(document);
+      // final document = XmlDocument.parse(xmlstr);
+      xml2Json.parse(xmlstr);
+      var jsondata = xml2Json.toGData();
+      readGPX(jsondata, element.split('-')[1].split('.')[0]);
     }
+    setState(() {});
   }
 
-  void readGPX(XmlDocument document) {
-    final names = document.findAllElements('name');
-    names.map((node) => node.text).forEach((str) => debugMsg(str));
-    // debugMsg(trailName!);
+  int polyCnt = 0;
+  List<PatternItem> solidLine = [PatternItem.dash(10)];
+  List<PatternItem> dashLine = [PatternItem.dash(10), PatternItem.gap(10)];
+
+  void readGPX(String jsonString, String lcolor) {
+    var data = jsonDecode(jsonString);
+    var gpx = data['gpx'];
+    var tname = gpx['trk']['name']['\$t'];
+    var desc = gpx['trk']['desc']['__cdata'];
+    var trkPts = gpx['trk']['trkseg']['trkpt'];
+
+    List<LatLng> latlng = [];
+    for (var pt in trkPts) {
+      latlng.add(LatLng(double.parse(pt['lat']), double.parse(pt['lon'])));
+      //debugMsg("Pt: ${pt['lat']}, ${pt['lon']} ");
+    }
+    polyCnt += 1;
+    tname += (polyCnt).toString();
+    _polylines.add(Polyline(
+        // onTap: () {
+        //   debugMsg("Clicked on $tname");
+        //   _showDesc(desc);
+        // },
+        patterns:
+            ((lcolor == "White" || lcolor == "Plum") ? dashLine : solidLine),
+        width: 3,
+        polylineId: PolylineId(tname),
+        visible: true,
+        //latlng is List<LatLng>
+        points: latlng,
+        color: nameToColor[lcolor]!));
+    debugMsg("Creating track: $tname");
+  }
+
+  _showDesc(String desc) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('AlertDialog Title'),
+        content: const Text('AlertDialog description'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   // Future<void> _goToTheLake() async {
@@ -174,6 +230,18 @@ class MapSampleState extends State<MapSample> {
   //   controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   // }
 }
+
+Map<String, Color> nameToColor = {
+  'Red': Colors.red,
+  'Orange': Colors.orange,
+  'Yellow': Colors.yellow,
+  'Green': Colors.green,
+  'Blue': Colors.blue,
+  'Indigo': Colors.indigo,
+  'White': Colors.white,
+  'Magenta': Colors.purpleAccent,
+  'Plum': Colors.purple
+};
 
 void debugMsg(String msg) {
   developer.log(msg, name: 'xc-ski-tracker.info');
