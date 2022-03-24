@@ -23,6 +23,7 @@ locationInit() async {
 
   location.changeSettings(
       accuracy: loc.LocationAccuracy.high, distanceFilter: 2, interval: 2000);
+  location.enableBackgroundMode(enable: true);
 
   bool _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
@@ -69,7 +70,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     locationInit();
-
     return const MaterialApp(
       title: 'XC Ski Tracker',
       home: MapSample(),
