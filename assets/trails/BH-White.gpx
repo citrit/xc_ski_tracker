@@ -10,10 +10,7 @@
 <trk>
 	<name>White Snowshoe Trail</name>
 	<desc>
-	<![CDATA[
-	<strong>White Snowshoe Trail</strong><br/>
-	<strong>Dist:</strong>&nbsp; &nbsp;2 km / 1.2 m <br /><strong>Desc:</strong>&nbsp; This trail takes you to the top of a ridge that towers 90 feet to the forest floor below The balance of this trail guides you along wide open trails.
-     ]]>
+	<![CDATA[<strong>White Snowshoe Trail</strong><br/><strong>Dist:</strong>&nbsp; &nbsp;2 km / 1.2 m <br /><strong>Desc:</strong>&nbsp; This trail takes you to the top of a ridge that towers 90 feet to the forest floor below The balance of this trail guides you along wide open trails.]]>
 	 </desc>
     <extensions>
         <gpxx:TrackExtension>

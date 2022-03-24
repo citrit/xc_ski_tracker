@@ -10,10 +10,7 @@
 <trk>
 	<name>Purple Snowshoe Trail</name>
 	<desc>
-	<![CDATA[
-	<strong>Purple Snowshoe Trail</strong><br/>
-	<strong>Dist:</strong>&nbsp; &nbsp;2.5 km / 1.5 m<br /><strong>Desc:</strong>&nbsp;This trail is made for explorers, there are several crossovers and connectors. Watch for the “big bump”, a 20 ft high knoll that was left during the last ice age.
-     ]]>
+	<![CDATA[<strong>Purple Snowshoe Trail</strong><br/><strong>Dist:</strong>&nbsp; &nbsp;2.5 km / 1.5 m<br /><strong>Desc:</strong>&nbsp;This trail is made for explorers, there are several crossovers and connectors. Watch for the “big bump”, a 20 ft high knoll that was left during the last ice age.]]>
 	 </desc>
     <trkseg>
     <trkpt lat="43.17940061" lon="-73.89107379">

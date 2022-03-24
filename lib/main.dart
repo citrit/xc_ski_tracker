@@ -3,22 +3,26 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:flutter/material.dart';
+import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 import 'dart:developer' as developer;
 import 'package:xml2json/xml2json.dart';
-
-late Location location;
-late LocationData currentLocation;
+import 'package:flutter_html/flutter_html.dart';
 
 const double CAMERA_ZOOM = 14;
 const LatLng SOURCE_LOCATION = LatLng(43.18530761638575, -73.88805916911608);
+const String _trackName = "TrackingPLine";
+late loc.Location location;
+late loc.LocationData currentLocation;
+
+List<LatLng> trackPts = [];
 
 locationInit() async {
-  location = Location();
+  location = loc.Location();
 
   location.changeSettings(
-      accuracy: LocationAccuracy.high, distanceFilter: 2, interval: 2000);
+      accuracy: loc.LocationAccuracy.high, distanceFilter: 2, interval: 2000);
 
   bool _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
@@ -28,26 +32,32 @@ locationInit() async {
     }
   }
 
-  PermissionStatus _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
+  loc.PermissionStatus _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == loc.PermissionStatus.denied) {
     _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
+    if (_permissionGranted != loc.PermissionStatus.granted) {
       return;
     }
   }
-  //LocationData _locationData = await location.getLocation();
-  //print("Initial location: $_locationData");
-  location.onLocationChanged.listen((LocationData currLocation) {
-    debugMsg("background location $currLocation");
-    currentLocation = currLocation;
-  });
 }
+
+Text _trackLabel = const Text("Track Me");
 
 void toggleTracking(bool turnOn) {
   if (turnOn == true) {
+    _polylines.add(Polyline(
+        width: 3,
+        polylineId: const PolylineId(_trackName),
+        visible: true,
+        //mp.LatLng is List<mp.LatLng>
+        points: trackPts,
+        color: nameToColor["TrackMe"]!));
     debugMsg('Turn tracking on');
   } else {
     debugMsg('Turn tracking off');
+    _polylines.removeWhere((el) => el.polylineId.value == _trackName);
+    trackPts.clear();
+    _trackLabel = const Text("Track Me");
   }
 }
 
@@ -74,51 +84,89 @@ class MapSample extends StatefulWidget {
   State<MapSample> createState() => MapSampleState();
 }
 
+// for my drawn routes on the map
+final Set<Polyline> _polylines = <Polyline>{};
+
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  // for my drawn routes on the map
-  final Set<Polyline> _polylines = <Polyline>{};
   //PolylinePoints polylinePoints;
 
   Icon fab = const Icon(
     Icons.check_box_outline_blank,
   );
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: SOURCE_LOCATION,
-    zoom: CAMERA_ZOOM,
-  );
-
   bool _trackingMe = false;
+
+  var descriptions = {};
+
+  String formatLength(List<LatLng> line) {
+    List<mp.LatLng>? mpoly = [];
+    for (var el in trackPts) {
+      mpoly.add(mp.LatLng(el.latitude, el.longitude));
+    }
+    num dist = mp.SphericalUtil.computeLength(mpoly);
+    String output;
+    if (dist > 100) {
+      output = (dist / 1000).toStringAsFixed(1) + ' km';
+    } else {
+      output = dist.toStringAsFixed(1) + ' m';
+    }
+    return output;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/img/BWPMapHeader.JPG',
-                fit: BoxFit.contain,
-                height: 44,
-              ),
-            ],
+    PreferredSizeWidget appBar = AppBar(
+      backgroundColor: Colors.white,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/img/BWPMapHeader.JPG',
+            fit: BoxFit.contain,
+            height: 44,
           ),
-        ),
+        ],
+      ),
+    );
+    location.onLocationChanged.listen((loc.LocationData currLoc) {
+      debugMsg("background location $currLoc");
+      currentLocation = currLoc;
+      if (_trackingMe) {
+        trackPts.add(LatLng(currLoc.latitude!, currLoc.longitude!));
+        setState(() {
+          _trackLabel = Text("Distance: " + formatLength(trackPts));
+        });
+      }
+    });
+    var _brookhaven = const CameraPosition(
+        target: SOURCE_LOCATION, zoom: CAMERA_ZOOM, bearing: 0, tilt: 0);
+    return Scaffold(
+        appBar: MediaQuery.of(context).orientation == Orientation.landscape
+            ? null // show nothing in lanscape mode
+            : appBar,
         body: GoogleMap(
           mapType: MapType.satellite,
-          initialCameraPosition: _kGooglePlex,
+          initialCameraPosition: _brookhaven,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             _listTrails();
           },
-          onTap: (latlng) {
-            debugMsg("Taped: $latlng");
-            var plyId = findNearest(latlng);
-            debugMsg(plyId.value == "" ? "Nothing near" : "Found poly: $plyId");
+          onTap: (latlng) async {
+            //debugMsg("Taped: $latlng");
+            final GoogleMapController controller = await _controller.future;
+            int zl = (await controller.getZoomLevel()).round();
+            var plyId =
+                findNearest(mp.LatLng(latlng.latitude, latlng.longitude), zl);
+            if (plyId.value == "") {
+              debugMsg(" Zoom: $zl  Tol: " +
+                  fibonacci(23 - zl).toString() +
+                  " " +
+                  "Nothing near by");
+            } else {
+              _showDesc(descriptions[plyId.value]);
+            }
           },
           polylines: _polylines,
           myLocationEnabled: true,
@@ -136,14 +184,27 @@ class MapSampleState extends State<MapSample> {
             _trackingMe = !_trackingMe;
             toggleTracking(_trackingMe);
           }),
-          label: const Text("Track Me"), //,
+          label: _trackLabel, //,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
-  PolylineId findNearest(LatLng ll) {
+  PolylineId findNearest(mp.LatLng ll, int zoomlevel) {
     PolylineId ret = const PolylineId("");
-    for (var ply in _polylines) {}
+    num toler = fibonacci(23 - zoomlevel);
+    // 1 * (22 - zoomlevel);
+    for (var ply in _polylines) {
+      if (ply.polylineId.value == _trackName) continue;
+      List<mp.LatLng>? mpoly = [];
+      for (var el in ply.points) {
+        mpoly.add(mp.LatLng(el.latitude, el.longitude));
+      }
+      if (mp.PolygonUtil.isLocationOnPath(ll, mpoly, ply.geodesic,
+          tolerance: toler)) {
+        ret = ply.polylineId;
+        break;
+      }
+    }
     return ret;
   }
 
@@ -171,7 +232,7 @@ class MapSampleState extends State<MapSample> {
     setState(() {});
   }
 
-  int polyCnt = 0;
+  int polyCnt = 1;
   List<PatternItem> solidLine = [PatternItem.dash(10)];
   List<PatternItem> dashLine = [PatternItem.dash(10), PatternItem.gap(10)];
 
@@ -182,25 +243,25 @@ class MapSampleState extends State<MapSample> {
     var desc = gpx['trk']['desc']['__cdata'];
     var trkPts = gpx['trk']['trkseg']['trkpt'];
 
-    List<LatLng> latlng = [];
+    List<LatLng> poly = [];
     for (var pt in trkPts) {
-      latlng.add(LatLng(double.parse(pt['lat']), double.parse(pt['lon'])));
+      poly.add(LatLng(double.parse(pt['lat']), double.parse(pt['lon'])));
       //debugMsg("Pt: ${pt['lat']}, ${pt['lon']} ");
     }
     polyCnt += 1;
     tname += (polyCnt).toString();
+    descriptions[tname] = desc;
     _polylines.add(Polyline(
         // onTap: () {
         //   debugMsg("Clicked on $tname");
         //   _showDesc(desc);
         // },
-        patterns:
-            ((lcolor == "White" || lcolor == "Plum") ? dashLine : solidLine),
+        patterns: ((tname.contains("Snowshoe")) ? dashLine : solidLine),
         width: 3,
         polylineId: PolylineId(tname),
         visible: true,
-        //latlng is List<LatLng>
-        points: latlng,
+        //mp.LatLng is List<mp.LatLng>
+        points: poly,
         color: nameToColor[lcolor]!));
     debugMsg("Creating track: $tname");
   }
@@ -209,13 +270,9 @@ class MapSampleState extends State<MapSample> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('AlertDialog Title'),
-        content: const Text('AlertDialog description'),
+        title: const Text('Trail Information'),
+        content: Html(data: desc),
         actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
-          ),
           TextButton(
             onPressed: () => Navigator.pop(context, 'OK'),
             child: const Text('OK'),
@@ -240,9 +297,12 @@ Map<String, Color> nameToColor = {
   'Indigo': Colors.indigo,
   'White': Colors.white,
   'Magenta': Colors.purpleAccent,
-  'Plum': Colors.purple
+  'Plum': Colors.purple,
+  'TrackMe': Colors.blue.shade200
 };
 
 void debugMsg(String msg) {
   developer.log(msg, name: 'xc-ski-tracker.info');
 }
+
+int fibonacci(int n) => n <= 2 ? 1 : fibonacci(n - 2) + fibonacci(n - 1);
