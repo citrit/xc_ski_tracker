@@ -21,10 +21,6 @@ List<LatLng> trackPts = [];
 locationInit() async {
   location = loc.Location();
 
-  location.changeSettings(
-      accuracy: loc.LocationAccuracy.high, distanceFilter: 2, interval: 2000);
-  location.enableBackgroundMode(enable: true);
-
   bool _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
     _serviceEnabled = await location.requestService();
@@ -40,19 +36,25 @@ locationInit() async {
       return;
     }
   }
+
+  location.changeSettings(
+      accuracy: loc.LocationAccuracy.high, distanceFilter: 2, interval: 2000);
+  location.enableBackgroundMode(enable: true);
 }
 
 Text _trackLabel = const Text("Track Me");
 
 void toggleTracking(bool turnOn) {
   if (turnOn == true) {
-    _polylines.add(Polyline(
-        width: 3,
-        polylineId: const PolylineId(_trackName),
-        visible: true,
-        //mp.LatLng is List<mp.LatLng>
-        points: trackPts,
-        color: nameToColor["TrackMe"]!));
+    _polylines = _polylines.union({
+      Polyline(
+          width: 8,
+          polylineId: const PolylineId(_trackName),
+          visible: true,
+          //mp.LatLng is List<mp.LatLng>
+          points: trackPts,
+          color: nameToColor["TrackMe"]!)
+    });
     debugMsg('Turn tracking on');
   } else {
     debugMsg('Turn tracking off');
@@ -85,7 +87,7 @@ class MapSample extends StatefulWidget {
 }
 
 // for my drawn routes on the map
-final Set<Polyline> _polylines = <Polyline>{};
+Set<Polyline> _polylines = <Polyline>{};
 
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller = Completer();
@@ -298,7 +300,7 @@ Map<String, Color> nameToColor = {
   'White': Colors.white,
   'Magenta': Colors.purpleAccent,
   'Plum': Colors.purple,
-  'TrackMe': Colors.blue.shade200
+  'TrackMe': Colors.blueAccent
 };
 
 void debugMsg(String msg) {

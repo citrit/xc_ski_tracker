@@ -1,4 +1,4 @@
-package com.example.xc_ski_tracker
+package com.tcc.xc_ski_tracker
 
 import io.flutter.embedding.android.FlutterActivity
 
