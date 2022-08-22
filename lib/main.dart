@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:background_location/background_location.dart';
+// import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as mp;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:xml2json/xml2json.dart';
@@ -76,7 +77,8 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => locationInit(context));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => initLocation(locationChanged));
   }
 
   String formatLength(List<LatLng> line) {
@@ -119,6 +121,16 @@ class MapSampleState extends State<MapSample> {
     setState(() {});
   }
 
+  void locationChanged(LocationData currLoc) {
+    debugMsg("background location $currLoc");
+    if (_trackingMe) {
+      trackPts.add(LatLng(currLoc.latitude!, currLoc.longitude!));
+      setState(() {
+        _trackLabel = Text("Distance: " + formatLength(trackPts));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     PreferredSizeWidget appBar = AppBar(
@@ -135,16 +147,16 @@ class MapSampleState extends State<MapSample> {
       ),
     );
 
-    BackgroundLocation.getLocationUpdates((location) {
-      debugMsg("Location: " +
-          location.longitude.toString() +
-          ", " +
-          location.latitude.toString());
-      trackPts.add(LatLng(location.latitude!, location.longitude!));
-      setState(() {
-        _trackLabel = Text("Distance: " + formatLength(trackPts));
-      });
-    });
+    // BackgroundLocation.getLocationUpdates((location) {
+    //   debugMsg("Location: " +
+    //       location.longitude.toString() +
+    //       ", " +
+    //       location.latitude.toString());
+    //   trackPts.add(LatLng(location.latitude!, location.longitude!));
+    //   setState(() {
+    //     _trackLabel = Text("Distance: " + formatLength(trackPts));
+    //   });
+    // });
 
     // location.onLocationChanged.listen((LocationData currLoc) {
     //   debugMsg("background location $currLoc");

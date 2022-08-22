@@ -1,34 +1,23 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
-import 'package:location/location.dart' as loc;
-import 'package:background_location/background_location.dart';
+import 'package:location/location.dart';
 import 'dart:io' show Platform;
 
 import 'package:xc_ski_tracker/src/utils.dart';
 
-late loc.Location location;
-late loc.LocationData currentLocation;
+late Location location;
+//late LocationData currentLocation;
 
-bool dialogOpened = false;
+bool locationInited = false;
+Future<void> initLocation(Function(LocationData) locFun) async {
+  if (locationInited) return;
+  location = Location();
+  location.enableBackgroundMode(enable: true);
 
-locationInit(BuildContext context) async {
-  location = loc.Location();
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  //LocationData _locationData;
 
-  loc.PermissionStatus _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == loc.PermissionStatus.denied) {
-    if (!dialogOpened) {
-      dialogOpened = true;
-      await showDesc(context, "XC Ski Tracker background permission",
-          "XC Ski Tracker collects location data to enable the Track Me feature so it can measure your distance even when the phone is off and in your pocket. Uncheck the Track Me feature to turn off. No data is stored or uploaded.");
-    }
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != loc.PermissionStatus.granted) {
-      return;
-    }
-  }
-
-  bool _serviceEnabled = await location.serviceEnabled();
+  _serviceEnabled = await location.serviceEnabled();
   if (!_serviceEnabled) {
     _serviceEnabled = await location.requestService();
     if (!_serviceEnabled) {
@@ -36,32 +25,27 @@ locationInit(BuildContext context) async {
     }
   }
 
-  //if (location.isBackgroundModeEnabled() == false) {
-  //showDesc(context, "Location permissions",
-  //    "XC Ski Tracker collects location data to enable the <strong>Track Me</strong> feature so it can measure your distance even when the phone is off and in your pocket. No data is stored or uploaded.");
-  // location.enableBackgroundMode(enable: true);
-  //}
-
-  location.changeSettings(
-      accuracy: loc.LocationAccuracy.high, distanceFilter: 2, interval: 2000);
-
-  if (Platform.isAndroid) {
-    BackgroundLocation.setAndroidNotification(
-      title: "XC Ski Tracker background permission",
-      message:
-          "XC Ski Tracker collects location data to enable the Track Me feature so it can measure your distance even when the phone is off and in your pocket. Uncheck the Track Me feature to turn off. No data is stored or uploaded.",
-      icon: "@mipmap/ic_launcher_round",
-    );
-    BackgroundLocation.setAndroidConfiguration(1000);
-  } else if (Platform.isIOS) {
-    // iOS-specific code
+  _permissionGranted = await location.hasPermission();
+  if (_permissionGranted == PermissionStatus.denied) {
+    _permissionGranted = await location.requestPermission();
+    if (_permissionGranted != PermissionStatus.granted) {
+      return;
+    }
   }
+
+  //_locationData = await location.getLocation();
+
+  location.onLocationChanged.listen(locFun);
+  if (!await location.enableBackgroundMode(enable: true)) {
+    debugMsg("Background not activated");
+  }
+
+  locationInited = true;
 }
 
-void backgroundLocation(bool on) {
-  if (on) {
-    BackgroundLocation.startLocationService(distanceFilter: 10);
-  } else {
-    BackgroundLocation.stopLocationService();
+Future<void> backgroundLocation(bool on) async {
+  bool retVal = await location.enableBackgroundMode(enable: on);
+  if (!retVal) {
+    debugMsg("Background not activated");
   }
 }
