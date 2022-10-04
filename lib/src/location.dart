@@ -1,51 +1,67 @@
-import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
-import 'dart:io' show Platform;
 
 import 'package:xc_ski_tracker/src/utils.dart';
 
-late Location location;
-//late LocationData currentLocation;
+class XCLocation {
+  static Location location = Location();
 
-bool locationInited = false;
-Future<void> initLocation(Function(LocationData) locFun) async {
-  if (locationInited) return;
-  location = Location();
-  location.enableBackgroundMode(enable: true);
+  static bool get locationInited {
+    bool ret = false;
+    ret = GetStorage().read('locationInited') ?? false;
+    return ret;
+  }
 
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  //LocationData _locationData;
+  static set locationInited(bool inited) {
+    debugMsg("Setting locationInited to: $inited");
+    GetStorage().write('locationInited', inited);
+  }
 
-  _serviceEnabled = await location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await location.requestService();
-    if (!_serviceEnabled) {
-      return;
+  static Future<void> initLocation(Function(LocationData) locFun) async {
+    // obtain shared preferences
+
+    debugMsg("locationInited: ${(locationInited ? "True" : "False")}");
+    //if (locationInited) return;
+
+    askForLocPermissions(locFun);
+    locationInited = true;
+  }
+
+  static void askForLocPermissions(Function(LocationData) locFun) async {
+    debugMsg("created location");
+
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        errorMsg("Background not activated");
+        return;
+      }
     }
-  }
+    debugMsg("Location service enabled");
 
-  _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
-      return;
+    var permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        errorMsg("location permitted not granted");
+        return;
+      }
     }
+    debugMsg("Location has permission");
+
+    location.onLocationChanged.listen(locFun);
+
+    if (!await location.enableBackgroundMode(enable: true)) {
+      errorMsg("Background not activated");
+    }
+    debugMsg("Background location activated");
   }
 
-  //_locationData = await location.getLocation();
-
-  location.onLocationChanged.listen(locFun);
-  if (!await location.enableBackgroundMode(enable: true)) {
-    debugMsg("Background not activated");
-  }
-
-  locationInited = true;
-}
-
-Future<void> backgroundLocation(bool on) async {
-  bool retVal = await location.enableBackgroundMode(enable: on);
-  if (!retVal) {
-    debugMsg("Background not activated");
+  static Future<void> backgroundLocation(bool on) async {
+    // bool retVal = await location.enableBackgroundMode(enable: on);
+    // if (!retVal) {
+    //   debugMsg("Background set failed: $on");
+    // }
   }
 }
