@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.topografix.com/GPX/gpx_style/0/2 http://www.topografix.com/GPX/gpx_style/0/2/gpx_style.xsd" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpx_style="http://www.topografix.com/GPX/gpx_style/0/2" version="1.1" creator="https://gpx.studio">
+<metadata>
+    <name>new</name>
+    <author>
+        <name>gpx.studio</name>
+        <link href="https://gpx.studio"></link>
+    </author>
+</metadata>
+<trk>
+	<name>BlueTrail</name>
+	<desc>
+	<![CDATA[<strong>Blue Trail</strong><br/><strong>Dist:</strong>&nbsp; &nbsp;2.4 km /1.5 m<br /><strong>Desc:</strong>&nbsp;Is a loop that is 40% open and 60% woods. OK for a strong beginner, there are small hills with no turns. A favorite view on the property is on the beaver pond looking west.]]>
+	 </desc>
+<trkseg>
+    <trkpt lat="43.18011044995202" lon="-73.89216274023057">
+        <ele>257.1</ele>
+    </trkpt>
+    <trkpt lat="43.18011044995202" lon="-73.89216274023057">
+        <ele>257.1</ele>
+    </trkpt>
+    <trkpt lat="43.18007133226976" lon="-73.89207154512407">
+        <ele>256.9</ele>
+    </trkpt>
+    <trkpt lat="43.180032214562445" lon="-73.89198035001756">
+        <ele>256.7</ele>
+    </trkpt>
+    <trkpt lat="43.179997008604445" lon="-73.89192938804628">
+        <ele>256.6</ele>
+    </trkpt>
+    <trkpt lat="43.17996180262614" lon="-73.891878426075">
+        <ele>256.5</ele>
+    </trkpt>
+    <trkpt lat="43.17992953046152" lon="-73.89182209968568">
+        <ele>256.3</ele>
+    </trkpt>
+    <trkpt lat="43.17989725827983" lon="-73.89176577329637">
+        <ele>256.3</ele>
+    </trkpt>
+    <trkpt lat="43.179848361002364" lon="-73.89171615242961">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.17979946368575" lon="-73.89166653156282">
+        <ele>256.1</ele>
+    </trkpt>
+    <trkpt lat="43.179735897115606" lon="-73.89162227511409">
+        <ele>256.1</ele>
+    </trkpt>
+    <trkpt lat="43.179672330479264" lon="-73.89157801866533">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.17963223456693" lon="-73.89153912663463">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.179592138628266" lon="-73.8915002346039">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.17955008676186" lon="-73.89143452048305">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.17950803486649" lon="-73.89136880636217">
+        <ele>256.2</ele>
+    </trkpt>
+    <trkpt lat="43.17948163017319" lon="-73.8913205265999">
+        <ele>256.1</ele>
+    </trkpt>
+    <trkpt lat="43.17945522546847" lon="-73.89127224683763">
+        <ele>256.1</ele>
+    </trkpt>
+    <trkpt lat="43.179435666420595" lon="-73.89121055603029">
+        <ele>256.0</ele>
+    </trkpt>
+    <trkpt lat="43.179416107366436" lon="-73.89114886522295">
+        <ele>255.8</ele>
+    </trkpt>
+    <trkpt lat="43.179411217601924" lon="-73.89109119772912">
+        <ele>255.6</ele>
+    </trkpt>
+    <trkpt lat="43.17940632783703" lon="-73.8910335302353">
+        <ele>255.4</ele>
+    </trkpt>
+    <trkpt lat="43.17941317350779" lon="-73.89100268483163">
+        <ele>255.3</ele>
+    </trkpt>
+    <trkpt lat="43.17942001917778" lon="-73.89097183942796">
+        <ele>255.2</ele>
+    </trkpt>
+    <trkpt lat="43.179448379802444" lon="-73.89091819524768">
+        <ele>254.9</ele>
+    </trkpt>
+    <trkpt lat="43.17947674041392" lon="-73.89086455106737">
+        <ele>254.6</ele>
+    </trkpt>
+    <trkpt lat="43.17951585847713" lon="-73.89078006148341">
+        <ele>254.1</ele>
+    </trkpt>
+    <trkpt lat="43.17955497651525" lon="-73.89069557189943">
+        <ele>253.7</ele>
+    </trkpt>
+    <trkpt lat="43.17960289607781" lon="-73.89058426022531">
+        <ele>253.1</ele>
+    </trkpt>
+    <trkpt lat="43.17965081560274" lon="-73.89047294855119">
+        <ele>252.5</ele>
+    </trkpt>
+    <trkpt lat="43.17968699970891" lon="-73.8904032111168">
+        <ele>252.2</ele>
+    </trkpt>
+    <trkpt lat="43.17972318379363" lon="-73.89033347368242">
+        <ele>251.9</ele>
+    </trkpt>
+    <trkpt lat="43.179755456067305" lon="-73.89027848839763">
+        <ele>251.7</ele>
+    </trkpt>
+    <trkpt lat="43.17978772832393" lon="-73.89022350311281">
+        <ele>251.5</ele>
+    </trkpt>
+    <trkpt lat="43.1798111990453" lon="-73.8901671767235">
+        <ele>251.3</ele>
+    </trkpt>
+    <trkpt lat="43.17983466975766" lon="-73.89011085033418">
+        <ele>251.1</ele>
+    </trkpt>
+    <trkpt lat="43.179852272786036" lon="-73.89004379510882">
+        <ele>250.9</ele>
+    </trkpt>
+    <trkpt lat="43.179869875809295" lon="-73.88997673988344">
+        <ele>250.7</ele>
+    </trkpt>
+    <trkpt lat="43.17988161115531" lon="-73.88990968465806">
+        <ele>250.5</ele>
+    </trkpt>
+    <trkpt lat="43.179893346499085" lon="-73.88984262943269">
+        <ele>250.2</ele>
+    </trkpt>
+    <trkpt lat="43.17990312595051" lon="-73.88968437910081">
+        <ele>249.8</ele>
+    </trkpt>
+    <trkpt lat="43.17991290540035" lon="-73.88952612876894">
+        <ele>249.5</ele>
+    </trkpt>
+    </trkseg>
+</trk>
+</gpx>
